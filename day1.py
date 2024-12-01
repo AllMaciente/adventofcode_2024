@@ -1,7 +1,7 @@
 from utils import get_puzzle_input
 
 puzzleInput = get_puzzle_input.get_input("https://adventofcode.com/2024/day/1/input")
-# puzzleInput = """"
+# puzzleInput = """
 # 3   4
 # 4   3
 # 2   5
@@ -30,4 +30,15 @@ totalDistancia = []
 for i in range(len(rightList)):
     totalDistancia.append(abs(rightList[i] - leftList[i]))
 
+print("parte UM")
 print(sum(totalDistancia))
+
+# Parte 2
+
+similarityScore = []
+
+for i in leftList:
+    similarityScore.append(i * rightList.count(i))
+
+print("parte DOIS")
+print(sum(similarityScore))
