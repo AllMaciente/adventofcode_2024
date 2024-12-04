@@ -1,13 +1,13 @@
-puzzleInput = """MMMSXXMASM
-MSAMXMSMSA
-AMXSXMAAMM
-MSAMASMSMX
-XMASAMXAMM
-XXAMMXXAMA
-SMSMSASXSS
-SAXAMASAAA
-MAMMMXMMMM
-MXMXAXMASX"""
+puzzleInput = """.M.S......
+..A..MSMS.
+.M.S.MAA..
+..A.ASMSM.
+.M.S.M....
+..........
+S.S.S.S.S.
+.A.A.A.A..
+M.M.M.M.M.
+.........."""
 
 from utils import get_puzzle_input
 
@@ -46,3 +46,60 @@ def countWord(grid, word):
 
 
 print(countWord(grid, "XMAS"))
+
+# part 2
+
+
+def countXPattern(grid):
+    rows, cols = len(grid), len(grid[0])
+    count = 0
+
+    patterns = [
+        [
+            (-1, -1, "M"),
+            (1, -1, "M"),
+            (-1, 1, "S"),
+            (1, 1, "S"),
+        ],
+        [
+            (-1, -1, "M"),
+            (1, -1, "S"),
+            (-1, 1, "M"),
+            (1, 1, "S"),
+        ],
+        [
+            (-1, -1, "S"),
+            (1, -1, "M"),
+            (-1, 1, "S"),
+            (1, 1, "M"),
+        ],
+        [
+            (-1, -1, "S"),
+            (1, -1, "S"),
+            (-1, 1, "M"),
+            (1, 1, "M"),
+        ],
+    ]
+
+    def checkPattern(x, y, pattern):
+        for dx, dy, char in pattern:
+            if not validPos(x + dx, y + dy):
+                return False
+            if grid[x + dx][y + dy] != char:
+                return False
+        return True
+
+    def validPos(x, y):
+        return 0 <= x < rows and 0 <= y < cols
+
+    for i in range(rows):
+        for j in range(cols):
+            if grid[i][j] == "A":
+                for pattern in patterns:
+                    if checkPattern(i, j, pattern):
+                        count += 1
+
+    return count
+
+
+print(countXPattern(grid))
