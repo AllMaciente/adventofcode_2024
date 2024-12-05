@@ -70,14 +70,50 @@ def checkOrder(order):
     return True
 
 
+wrongOrder = []
 rightOrder = []
 for order in Orders:
     if checkOrder(order):
         rightOrder.append(order)
+    else:
+        wrongOrder.append(order)
+
 
 # print(rightOrder, "----", sep="\n")
-middlePage = 0
-for i in rightOrder:
-    middlePage += int(i[len(i) // 2])
+def middlePageSum(order):
+    middlePage = 0
+    for i in order:
+        middlePage += int(i[len(i) // 2])
+    return middlePage
 
-print(middlePage)
+
+print(middlePageSum(rightOrder))
+
+# part 2
+
+
+def updateOrder(order):
+    newOrder = []  # Lista que vai armazenar a ordem correta
+    for page in order:
+        inserted = False
+        for i in range(len(newOrder)):
+            # Se o elemento page deve vir antes de newOrder[i], o insere
+            if page in Rules and newOrder[i] in Rules[page]:
+                newOrder.insert(i, page)
+                inserted = True
+                break
+        # Se o elemento não foi inserido em nenhuma posição, é colocado no final
+        if not inserted:
+            newOrder.append(page)
+    return newOrder
+
+
+# Testando a função para as ordens incorretas
+newWrongOrder = []
+
+for i in wrongOrder:
+    newWrongOrder.append(updateOrder(i))
+
+# print(newWrongOrder)
+
+print(middlePageSum(newWrongOrder))
